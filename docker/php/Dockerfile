@@ -2,8 +2,6 @@ FROM php:7.4.13-fpm
 
 # Copy composer.lock and composer.json
 COPY composer.lock composer.json /var/www/
-COPY docker-entry.sh /
-RUN chmod +x /docker-entry.sh
 
 # Set working directory
 WORKDIR /var/www
@@ -66,14 +64,6 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # Copy existing application directory contents
 COPY . /var/www
 
-COPY docker/nginx/conf.d/ /etc/nginx/conf.d/
-
-COPY docker/php/local.ini /usr/local/etc/php/conf.d/local.ini
-RUN cat /usr/local/etc/php/conf.d/local.ini
-
-RUN rm -rf /etc/nginx/sites-enabled
-RUN mkdir -p /etc/nginx/sites-enabled
-
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www
 
@@ -83,6 +73,6 @@ USER www
 #Composer update for /vendor/autoload.php
 RUN composer update --no-scripts
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 80
-CMD ["/docker-entry.sh"]
+# Expose port 80 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
