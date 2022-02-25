@@ -51,9 +51,6 @@ RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     xsl \
     zip
 
-# Adding pdflib.so file to extension_dir path
-# COPY ./docker/php/php_pdflib.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
